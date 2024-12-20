@@ -1,14 +1,13 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import validator from "validator";
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    minLength: [3, "Your name should have atleast 3 characters"],
-    maxLength: [30, "Your name should have atmost 30 characters"],
+    minLength: [3, "Your name should have at least 3 characters"],
+    maxLength: [30, "Your name should have at most 30 characters"],
   },
   email: {
     type: String,
@@ -16,14 +15,14 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, "Please enter a valid email address"],
   },
   phone: {
-    type: Number,
+    type: String, // Changed to String
     required: true,
   },
   address: {
     type: String,
     required: true,
   },
-  niche: {
+  niches: { // Changed from niche to niches
     firstNiche: String,
     secondNiche: String,
     thirdNiche: String,
@@ -31,7 +30,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minLength: [6, "Password should have atleast 6 characters"],
+    minLength: [6, "Password should have at least 6 characters"],
     maxLength: [30, "Password cannot exceed 30 characters"],
     select: false,
   },
@@ -48,7 +47,7 @@ const userSchema = new mongoose.Schema({
     default: "user",
     required: true,
     enum: {
-      values: ["Job Seeker", "Empolyer"],
+      values: ["Job Seeker", "Employer"],
       message: "Please select correct role",
     },
   },
@@ -58,4 +57,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-export  const User = mongoose.model("User", userSchema);
+export const User = mongoose.model("User", userSchema);
+
+export default User;
