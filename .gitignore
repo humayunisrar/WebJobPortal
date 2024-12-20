@@ -29,3 +29,4 @@ Job_Seekers_Resume/
 
 # Temporary files
 temp/
+backend/config/config.env
