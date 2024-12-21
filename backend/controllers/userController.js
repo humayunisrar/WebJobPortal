@@ -2,6 +2,7 @@ import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../middlewares/error.js";
 import User from "../models/userSchema.js";
 import { v2 as cloudinary } from "cloudinary";
+import { sendToken } from "../utils/jwtToken.js";
 
 export const register = catchAsyncErrors(async (req, res, next) => {
   // Log the request body for debugging
@@ -81,12 +82,39 @@ export const register = catchAsyncErrors(async (req, res, next) => {
   // Create the user in the database
   try {
     const user = await User.create(userData);
-    res.status(201).json({
-      success: true,
-      message: "Account registered successfully.",
-    });
+    sendToken(user, 201, res, "Account registered successfully.");
   } catch (error) {
     console.error("Error creating user:", error);
     return next(new ErrorHandler("Error creating user", 500));
   }
+});
+
+export const login = catchAsyncErrors(async (req, res, next) => {
+  const { role, email, password } = req.body;
+
+  // Validate email and password
+  if (!role || !email || !password) {
+    return next(
+      new ErrorHandler("Please enter email and password and role", 400)
+    );
+  }
+
+  // Find user in the database
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user) {
+    return next(new ErrorHandler("Invalid email or password", 401));
+  }
+
+  // Check if password is correct
+  const isPasswordMatched = await user.comparePassword(password);
+
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Invalid email or password", 401));
+  }
+  if (role !== user.role) {
+    return next(new ErrorHandler("Invalid user role", 401));
+  }
+
+  sendToken(user, 200, res, "Logged in successfully.");
 });
