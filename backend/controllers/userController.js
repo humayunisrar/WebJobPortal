@@ -26,7 +26,11 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     console.log("Validation failed: Missing required fields");
     return next(new ErrorHandler("Please fill in all fields.", 400));
   }
-
+  if (role === "Job Seeker" && (!firstNiche || !secondNiche || !thirdNiche)) {
+    return next(
+      new ErrorHandler("Please provide your preferred job niches.", 400)
+    );
+  }
   // Check for existing user
   const existingUser = await User.findOne({ email });
   console.log("Existing user check completed");
