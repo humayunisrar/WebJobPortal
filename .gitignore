@@ -31,3 +31,5 @@ Job_Seekers_Resume/
 temp/
 backend/config/config.env
 *.env
+*.env
+/backend/config
