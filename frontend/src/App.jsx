@@ -1,6 +1,16 @@
 import React from 'react'
 import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+import Jobs from "./pages/Jobs";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import PostApplication from "./pages/PostApplication";
+import Register from "./pages/Register";
+
 
 const App = () => {
   return (
@@ -19,7 +29,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <Footer />
+        <Footer/>
     </Router>
    
    </>
