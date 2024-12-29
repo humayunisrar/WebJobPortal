@@ -13,13 +13,15 @@ import { newsLetterCron } from "./automation/newsLetterCron.js";
 const app = express();
 config({ path: "./config/config.env" });
 
+// Correct CORS configuration
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL],
+    origin: process.env.FRONTEND_URL, // Replace with your frontend URL, e.g., http://localhost:3000
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    credentials: true, // Required to allow cookies/auth headers
   })
 );
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,11 +33,18 @@ app.use(
   })
 );
 
+// Routes
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/job", jobRouter);
 app.use("/api/v1/application", applicationRouter);
+
+// Automated tasks
 newsLetterCron();
+
+// Database connection
 connection();
+
+// Error handling middleware
 app.use(errorMiddleware);
 
 export default app;
