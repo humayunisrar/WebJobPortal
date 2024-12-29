@@ -33,3 +33,4 @@ backend/config/config.env
 *.env
 *.env
 /backend/config
+backend/config/config.env
