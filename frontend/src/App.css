@@ -80,60 +80,78 @@ input::-webkit-outer-spin-button {
   padding: 20px 110px;
   align-items: center;
 }
+
 .navbar .hamburger {
   display: none;
+  cursor: pointer; /* Add cursor for better user experience */
 }
+
 .navbar .logo {
   flex: 1;
   display: flex;
   align-items: center;
   gap: 30px;
 }
+
 .navbar .logo h4 {
   font-size: 26px;
   font-weight: 600;
   text-transform: uppercase;
   color: #dfdf07;
 }
+
 .navbar .logo img {
   width: 120px;
 }
+
 .navbar .links {
   display: flex;
   justify-content: space-between;
+}
+.show_navbar .links {
+  display: flex; /* Show the links when the class is applied */
 }
 .navbar .links ul {
   display: flex;
   align-items: center;
   gap: 50px;
 }
+
 .navbar .links ul li {
   list-style-type: none;
 }
+
 .navbar .links ul li a {
   text-decoration: none;
   color: #444;
   transition: 0.3s;
 }
+
 .navbar .links ul li a:hover {
   color: #dfdf07;
   transition: 0.3s;
 }
+
 .navbar .links ul:last-child {
   gap: 10px;
 }
+
 @media (max-width: 1320px) {
   .navbar .logo {
     flex: none;
     width: fit-content;
   }
+ 
+
   .navbar .logo h4 {
     font-size: 23px;
   }
+
   .navbar .logo img {
     width: 75px;
   }
 }
+
 @media (max-width: 1140px) {
   .navbar {
     flex-wrap: wrap;
@@ -141,10 +159,19 @@ input::-webkit-outer-spin-button {
     overflow-y: hidden;
     transition: 0.3s;
   }
+  .navbar .links {
+    display: none;
+    justify-content: space-between;
+  }
+  .show_navbar .links {
+    display: flex; /* Show the links when the class is applied */
+  }
   .navbar .hamburger {
     display: flex;
     font-size: 24px;
+    /* Add styling for hamburger icon (e.g., using a CSS framework like Font Awesome) */
   }
+
   .navbar .links {
     order: 1;
     width: 100%;
@@ -153,42 +180,52 @@ input::-webkit-outer-spin-button {
     gap: 20px;
     padding-top: 20px;
   }
+
   .show_navbar {
     height: 200px;
     transition: 0.3s;
   }
 }
+
 @media (max-width: 920px) {
   .navbar {
     padding: 20px;
   }
+
   header {
     flex-wrap: wrap;
   }
 }
+
 @media (max-width: 600px) {
   .navbar .links ul {
     flex-direction: column;
     align-items: flex-start;
   }
+
   .show_navbar {
     height: 380px;
     transition: 0.3s;
   }
 }
+
 @media (max-width: 470px) {
   .navbar .logo {
     gap: 10px;
   }
+
   .navbar .logo h4 {
     font-size: 18px;
   }
+
   .navbar .logo img {
     width: 40px;
   }
+
   .navbar {
     height: 75px;
   }
+
   .show_navbar {
     height: 340px;
     transition: 0.3s;

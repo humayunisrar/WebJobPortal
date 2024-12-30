@@ -28,11 +28,11 @@ const Footer = () => {
         <div>
           <h4>Quick Links</h4>
           <ul>
-            <li to={"/"}>
-              <Link>Home</Link>
+            <li>
+              <Link to={"/"}>Home</Link>
             </li>
-            <li to={"/jobs"}>
-              <Link>Jobs</Link>
+            <li>
+              <Link to={"/jobs"}>Jobs</Link>
             </li>
             {isAuthenticated && (
               <li>
