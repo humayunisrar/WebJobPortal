@@ -697,10 +697,12 @@ footer div ul a span {
 .jobs {
   padding: 40px 100px;
   min-height: 800px;
+  
 }
 .jobs .wrapper {
   display: flex;
   gap: 50px;
+  
 }
 .jobs .wrapper .filter-bar {
   width: 25%;
@@ -711,19 +713,28 @@ footer div ul a span {
 .jobs .wrapper .filter-bar .cities {
   flex-direction: column;
   gap: 7px;
+  font-size: 10px;
   display: flex;
+  
 }
 .jobs .wrapper .filter-bar .cities h2 {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
   padding-bottom: 20px;
   border-bottom: 1px solid gray;
   margin-bottom: 20px;
+
+}
+.jobs .wrapper .filter-bar .cities label {
+  font-size: 16px;
+  font-weight: 400;
+
 }
 .jobs .wrapper .filter-bar .cities div {
   display: flex;
   align-items: center;
   gap: 12px;
+  
 }
 .jobs .search-tab-wrapper {
   display: flex;
@@ -734,8 +745,9 @@ footer div ul a span {
   margin-bottom: 30px;
 }
 .jobs .search-tab-wrapper input {
+  
   width: 100%;
-  font-size: 20px;
+  font-size: 14px;
   border-radius: 7px;
   padding: 12px 140px 12px 8px;
   border: 1px solid gray;
@@ -750,7 +762,8 @@ footer div ul a span {
 .jobs .search-tab-wrapper button {
   position: absolute;
   right: 16px;
-  top: 11px;
+  top: 7px;
+  font-size: 16px;
   background: #dfdf07;
   color: #111;
   font-weight: 500;
@@ -804,11 +817,11 @@ footer div ul a span {
 } */
 .jobs .container .jobs_container .card .title {
   color: #111;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
 }
 .jobs .container .jobs_container .card .hiring-multiple {
-  font-size: 16px;
+  font-size: 12px;
   color: #008b00;
   background: #008b0033;
   padding: 3px 4px;
@@ -817,7 +830,7 @@ footer div ul a span {
 }
 .jobs .container .jobs_container .card .hiring {
   color: rgb(0, 145, 255);
-  font-size: 16px;
+  font-size: 12px;
   background: rgba(0, 145, 255, 0.338);
   padding: 3px 4px;
   border-radius: 5px;
@@ -827,7 +840,7 @@ footer div ul a span {
 .jobs .container .jobs_container .card .location,
 .jobs .container .jobs_container .card .salary,
 .jobs .container .jobs_container .card .posted {
-  font-size: 16px;
+  font-size: 14px;
   color: gray;
 }
 .jobs .container .jobs_container .card .salary span,

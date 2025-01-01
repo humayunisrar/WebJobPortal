@@ -1,7 +1,7 @@
 import express from "express";
 import { config } from "dotenv";
-import cookieParser from "cookie-parser";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { connection } from "./database/connection.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import fileUpload from "express-fileupload";
@@ -10,15 +10,15 @@ import jobRouter from "./routes/jobRouter.js";
 import applicationRouter from "./routes/applicationRouter.js";
 import { newsLetterCron } from "./automation/newsLetterCron.js";
 
+
 const app = express();
 config({ path: "./config/config.env" });
 
-// Correct CORS configuration
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL, // Replace with your frontend URL, e.g., http://localhost:3000
+    origin: [process.env.FRONTEND_URL],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Required to allow cookies/auth headers
+    credentials: true,
   })
 );
 
@@ -33,18 +33,12 @@ app.use(
   })
 );
 
-// Routes
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/job", jobRouter);
 app.use("/api/v1/application", applicationRouter);
 
-// Automated tasks
-newsLetterCron();
-
-// Database connection
+newsLetterCron()
 connection();
-
-// Error handling middleware
 app.use(errorMiddleware);
 
 export default app;

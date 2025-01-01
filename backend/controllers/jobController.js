@@ -29,17 +29,20 @@ export const postJob = catchAsyncErrors(async (req, res, next) => {
     !salary ||
     !jobNiche
   ) {
-    return next(new ErrorHandler("Please fill in all fields.", 400));
+    return next(new ErrorHandler("Please provide full job details.", 400));
   }
-
   if (
     (personalWebsiteTitle && !personalWebsiteUrl) ||
     (!personalWebsiteTitle && personalWebsiteUrl)
   ) {
-    return next(new ErrorHandler("Please enter personal website details", 400));
+    return next(
+      new ErrorHandler(
+        "Provide both the website url and title, or leave both blank.",
+        400
+      )
+    );
   }
-
-  const postedBy = req.user.id;
+  const postedBy = req.user._id;
   const job = await Job.create({
     title,
     jobType,
@@ -52,58 +55,35 @@ export const postJob = catchAsyncErrors(async (req, res, next) => {
     salary,
     hiringMultipleCandidates,
     personalWebsite: {
-      title: personalWebsiteTitle || "",
-      url: personalWebsiteUrl || "",
+      title: personalWebsiteTitle,
+      url: personalWebsiteUrl,
     },
     jobNiche,
     postedBy,
   });
   res.status(201).json({
     success: true,
-    message: "Job posted successfully",
+    message: "Job posted successfully.",
     job,
   });
 });
 
-export const getAllJobs = catchAsyncErrors(async (req, res) => {
+export const getAllJobs = catchAsyncErrors(async (req, res, next) => {
   const { city, niche, searchKeyword } = req.query;
   const query = {};
   if (city) {
-    query.location = { $regex: new RegExp(city, "i") };
+    query.location = city;
   }
   if (niche) {
-    query.jobNiche = { $regex: new RegExp(niche, "i") };
+    query.jobNiche = niche;
   }
-
   if (searchKeyword) {
     query.$or = [
-      {
-        title: {
-          $regex: searchKeyword,
-          $options: "i",
-        },
-      },
-      {
-        companyName: {
-          $regex: searchKeyword,
-          $options: "i",
-        },
-      },
-      {
-        jobNiche: {
-          $regex: searchKeyword,
-          $options: "i",
-        },
-      },
-      {
-        introduction: {
-          $regex: searchKeyword,
-          $options: "i",
-        },
-      },
+      { title: { $regex: searchKeyword, $options: "i" } },
+      { companyName: { $regex: searchKeyword, $options: "i" } },
+      { introduction: { $regex: searchKeyword, $options: "i" } },
     ];
   }
-
   const jobs = await Job.find(query);
   res.status(200).json({
     success: true,
@@ -112,40 +92,35 @@ export const getAllJobs = catchAsyncErrors(async (req, res) => {
   });
 });
 
-export const getMyJobs = catchAsyncErrors(async (req, res) => {
-
-    const myJobs = await Job.find({ postedBy: req.user.id });
-    res.status(200).json({
-      success: true,
-      myJobs,
-      count: myJobs.length,
-    });
-
+export const getMyJobs = catchAsyncErrors(async (req, res, next) => {
+  const myJobs = await Job.find({ postedBy: req.user._id });
+  res.status(200).json({
+    success: true,
+    myJobs,
+  });
 });
 
-export const deleteJob = catchAsyncErrors(async (req, res) => {
-
-    const {id} = req.params;
-    const job = await Job.findById(id);
-    if(!job){
-        return next(new ErrorHandler("Oops! Job not found", 404));
-    }
-    await job.deleteOne();
-    res.status(200).json({
-      success: true,
-      message: "Job deleted successfully",
-    });
+export const deleteJob = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  const job = await Job.findById(id);
+  if (!job) {
+    return next(new ErrorHandler("Oops! Job not found.", 404));
+  }
+  await job.deleteOne();
+  res.status(200).json({
+    success: true,
+    message: "Job deleted.",
+  });
 });
 
-export const getASingleJob = catchAsyncErrors(async (req, res) => {
-
-    const { id } = req.params;
-    const job = await Job.findById(id);
-    if (!job) {
-      return next(new ErrorHandler("Job not found.", 404));
-    }
-    res.status(200).json({
-      success: true,
-      job,
-    });
+export const getASingleJob = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  const job = await Job.findById(id);
+  if (!job) {
+    return next(new ErrorHandler("Job not found.", 404));
+  }
+  res.status(200).json({
+    success: true,
+    job,
+  });
 });
