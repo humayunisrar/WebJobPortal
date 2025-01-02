@@ -196,10 +196,6 @@ const Jobs = () => {
                   /* BUG No.2 */
                   <img src="./notfound.png" alt="job-not-found" style={{width: "100%"}}/>)
                   /************************************************************/
-
-
-
-
                   }
               </div>
             </div>
