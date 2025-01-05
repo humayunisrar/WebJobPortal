@@ -117,7 +117,7 @@ const PostApplication = () => {
             />
           </div>
           <div>
-            <label>Address</label>
+            <label>City</label>
             <input
               type="text"
               value={address}

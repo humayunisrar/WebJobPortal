@@ -66,7 +66,7 @@ const MyApplications = () => {
                       <span>Phone: </span> {element.jobSeekerInfo.phone}
                     </p>
                     <p className="sub-sec">
-                      <span>Address: </span> {element.jobSeekerInfo.address}
+                      <span>City: </span> {element.jobSeekerInfo.address}
                     </p>
                     <p className="sub-sec">
                       <span>Coverletter: </span>
