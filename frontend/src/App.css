@@ -17,8 +17,8 @@ input::-webkit-outer-spin-button {
 .btn,
 .black_btn,
 .outline_btn {
-  background: #dfdf07;
-  color: #111;
+  background: #0495f0;
+  color: white;
   font-weight: 500;
   border: none;
   transition: 0.3s;
@@ -40,7 +40,7 @@ input::-webkit-outer-spin-button {
   }
 }
 .btn:hover {
-  background-color: #111;
+  background-color: #044ff0;
   color: #fff;
   transition: 0.3s;
   cursor: pointer;
@@ -61,13 +61,13 @@ input::-webkit-outer-spin-button {
   border: 1px solid #dfdf07;
 }
 .btn:hover {
-  background-color: #111;
+  background-color: #044ff0;
   color: #fff;
   transition: 0.3s;
   cursor: pointer;
 }
 .outline_btn:hover {
-  background: #dfdf07;
+  background: #044ff0;
   color: #111;
   transition: 0.3s;
   cursor: pointer;
@@ -93,13 +93,6 @@ input::-webkit-outer-spin-button {
   gap: 30px;
 }
 
-.navbar .logo h4 {
-  font-size: 26px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #dfdf07;
-}
-
 .navbar .logo img {
   width: 120px;
 }
@@ -123,12 +116,12 @@ input::-webkit-outer-spin-button {
 
 .navbar .links ul li a {
   text-decoration: none;
-  color: #444;
+  color: black;
   transition: 0.3s;
 }
 
 .navbar .links ul li a:hover {
-  color: #dfdf07;
+  color: #044ff0;
   transition: 0.3s;
 }
 
@@ -289,6 +282,7 @@ footer {
   display: flex;
   border-bottom: 1px solid rgb(133, 133, 133);
   padding: 40px 20px 20px 20px;
+  margin-top: 20px;
 }
 footer div {
   flex: 1;
@@ -327,7 +321,7 @@ footer div ul a {
   transition: 0.3s;
 }
 footer div ul a:hover {
-  color: #dfdf07;
+  color: #044ff0;
   transition: 0.3s;
 }
 footer div ul a span {
@@ -338,7 +332,7 @@ footer div ul a span {
   display: flex;
   justify-content: center;
   text-align: center;
-  color: #8080805c;
+  color: white;
   font-weight: 300;
   padding: 20px;
 }
@@ -396,8 +390,8 @@ footer div ul a span {
 .hero .box {
   max-width: 900px;
   text-align: center;
-  background: #dfdf07;
-  color: #111;
+  background: #0495f0;
+  color: white;
   padding: 50px 75px;
   border-radius: 35px;
   letter-spacing: 1px;
@@ -407,7 +401,7 @@ footer div ul a span {
 .hero .box:hover {
   transform: translateY(-10px);
   transition: 0.3s;
-  background: #111;
+  background: #044ff0;
   color: #fff;
 }
 @media (max-width: 1720px) {
@@ -440,7 +434,7 @@ footer div ul a span {
 .services h3 {
   font-size: 1.75rem;
   font-weight: 600;
-  color: #dfdf07;
+  color: black;
   text-transform: uppercase;
 }
 .services .grid {
@@ -449,7 +443,7 @@ footer div ul a span {
   grid-gap: 50px;
 }
 .services .grid .card {
-  background: black;
+  background: #0495f0;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -459,8 +453,8 @@ footer div ul a span {
   transition: 0.3s;
 }
 .services .grid .card:hover {
-  background: #dfdf07;
-  color: #111;
+  background: #044ff0 ;
+  color: white;
   transition: 0.3s;
 }
 .services .grid .card h4 {
@@ -482,7 +476,7 @@ footer div ul a span {
   align-items: center;
   margin: 0 auto;
   gap: 50px;
-  background: #dfdf07;
+  background: #0495f0 ;
 }
 .howItWorks h3 {
   font-size: 1.75rem;
@@ -623,7 +617,7 @@ footer div ul a span {
 .authPage .container form .inputTag div svg {
   width: 10%;
   font-size: 1.5rem;
-  background: #dfdf07;
+  background: #0495f0;
   height: 46px;
   padding: 8px;
   color: #fff;
@@ -635,17 +629,17 @@ footer div ul a span {
   margin-top: 25px;
   font-weight: 700;
   color: #fff;
-  background: #dfdf07;
+  background: #0495f0;
   font-size: 1.2rem;
   border-radius: 7px;
 }
 .authPage .container form a {
   padding: 12px;
   text-align: center;
-  border: 1px solid #dfdf07;
+  border: 1px solid #0495f0;
   margin-top: 25px;
   font-weight: 700;
-  color: #dfdf07;
+  color: #0495f0;
   font-size: 1.2rem;
   text-decoration: none;
   border-radius: 7px;
@@ -761,13 +755,13 @@ footer div ul a span {
 }
 .jobs .search-tab-wrapper button {
   position: absolute;
-  right: 16px;
+  right: 15px;
   top: 7px;
   font-size: 16px;
-  background: #dfdf07;
-  color: #111;
+  background: #0495f0;
+  color: white;
   font-weight: 500;
-  padding: 2px 10px;
+  padding: 5px 10px;
   border-radius: 7px;
   border: none;
 }
