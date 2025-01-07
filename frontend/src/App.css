@@ -73,19 +73,19 @@ input::-webkit-outer-spin-button {
   cursor: pointer;
 }
 
+
+
+/* General Navbar styling */
 .navbar {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid rgb(133, 133, 133);
-  padding: 20px 110px;
   align-items: center;
+  border-bottom: 1px solid rgb(133, 133, 133);
+  padding: 20px 30px;
+  position: relative;
 }
 
-.navbar .hamburger {
-  display: none;
-  cursor: pointer; /* Add cursor for better user experience */
-}
-
+/* Logo section */
 .navbar .logo {
   flex: 1;
   display: flex;
@@ -97,17 +97,24 @@ input::-webkit-outer-spin-button {
   width: 120px;
 }
 
+/* Hamburger icon */
+.navbar .hamburger {
+  display: none;
+  cursor: pointer;
+  z-index: 20; /* Ensure it's on top of the sidebar */
+}
+
+/* Links styling */
 .navbar .links {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
-.show_navbar .links {
-  display: flex; /* Show the links when the class is applied */
-}
+
 .navbar .links ul {
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 30px;
 }
 
 .navbar .links ul li {
@@ -122,108 +129,126 @@ input::-webkit-outer-spin-button {
 
 .navbar .links ul li a:hover {
   color: #044ff0;
+}
+
+/* Sidebar styling (initially hidden) */
+.navbar .sidebar {
+  display: none;
+}
+
+.navbar .sidebar.show {
+  display: flex;
+  position: fixed; /* Fixed position for overlay */
+  top: 10px; /* Adjust top spacing here */
+  right: 0;
+  width: 250px;
+  background-color: #333;
+  height: auto; /* Height will be based on content */
+  max-height: 100vh; /* Prevent overflow of sidebar beyond the viewport */
+  flex-direction: column;
+  gap: 20px;
+  padding-left: 20px;
+  z-index: 10;
+  transition: 0.3s;
+  overflow-y: auto; /* Allow scrolling inside the sidebar if content is large */
+}
+
+/* Sidebar links */
+.navbar .sidebar ul {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+}
+
+.navbar .sidebar ul li {
+  list-style-type: none;
+  width: 100%;
+}
+
+.navbar .sidebar ul li a {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+  display: block;
+  width: 100%;
+  text-align: left;
   transition: 0.3s;
 }
 
-.navbar .links ul:last-child {
-  gap: 10px;
+.navbar .sidebar ul li a:hover {
+  background-color: #044ff0;
 }
 
-@media (max-width: 1320px) {
-  .navbar .logo {
-    flex: none;
-    width: fit-content;
-  }
- 
-
-  .navbar .logo h4 {
-    font-size: 23px;
-  }
-
-  .navbar .logo img {
-    width: 75px;
-  }
+/* Close button inside the sidebar */
+.navbar .sidebar .close-btn {
+  align-self: flex-end;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+  padding-right: 10px;
+  margin-top: 20px;
 }
 
-@media (max-width: 1140px) {
-  .navbar {
-    flex-wrap: wrap;
-    height: 120px;
-    overflow-y: hidden;
-    transition: 0.3s;
-  }
+/* Prevent body scroll when sidebar is open */
+body.sidebar-open {
+  overflow: hidden;
+}
+
+/* Media Queries for responsive design */
+
+/* For larger screens (default state) */
+@media (min-width: 1140px) {
   .navbar .links {
+    display: flex;
+  }
+
+  .navbar .hamburger {
     display: none;
-    justify-content: space-between;
   }
-  .show_navbar .links {
-    display: flex; /* Show the links when the class is applied */
+
+  .navbar .sidebar {
+    display: none;
   }
+}
+
+/* For smaller screens, show hamburger icon and sidebar */
+@media (max-width: 1140px) {
   .navbar .hamburger {
     display: flex;
     font-size: 24px;
-    /* Add styling for hamburger icon (e.g., using a CSS framework like Font Awesome) */
+    cursor: pointer;
+    z-index: 20; /* Ensure it's on top of the sidebar */
   }
 
   .navbar .links {
-    order: 1;
-    width: 100%;
-    flex: none;
-    flex-direction: column;
-    gap: 20px;
-    padding-top: 20px;
+    display: none;
   }
 
-  .show_navbar {
-    height: 200px;
-    transition: 0.3s;
-  }
-}
-
-@media (max-width: 920px) {
-  .navbar {
-    padding: 20px;
+  .navbar .sidebar.show {
+    display: flex;
   }
 
-  header {
-    flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 600px) {
-  .navbar .links ul {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .show_navbar {
-    height: 380px;
-    transition: 0.3s;
-  }
-}
-
-@media (max-width: 470px) {
-  .navbar .logo {
-    gap: 10px;
-  }
-
-  .navbar .logo h4 {
+  .navbar .sidebar ul li a {
     font-size: 18px;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 600px) {
+  .navbar .sidebar ul li a {
+    font-size: 16px;
+    padding: 12px;
   }
 
   .navbar .logo img {
-    width: 40px;
+    width: 90px;
   }
 
-  .navbar {
-    height: 75px;
-  }
-
-  .show_navbar {
-    height: 340px;
-    transition: 0.3s;
+  .navbar .hamburger {
+    font-size: 28px;
   }
 }
+
 
 .notfound {
   padding: 40px 100px;
