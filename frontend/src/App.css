@@ -14,6 +14,20 @@ input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.side-btn{
+  background: #0495f0;
+  color: white;
+  font-weight: 500;
+  border: none;
+  transition: 0.3s;
+  font-size: small;
+  padding: 10px 30px;
+  min-width: 50%;
+  margin-left: 1rem;
+  max-width: fit-content;
+  border-radius: 6px;
+  text-decoration: none;
+}
 .btn,
 .black_btn,
 .outline_btn {
@@ -74,15 +88,14 @@ input::-webkit-outer-spin-button {
 }
 
 
-
-/* General Navbar styling */
+/* General Navbar Styling */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgb(133, 133, 133);
   padding: 20px 30px;
   position: relative;
+  border-bottom: 1px solid rgb(133, 133, 133);
 }
 
 /* Logo section */
@@ -101,16 +114,18 @@ input::-webkit-outer-spin-button {
 .navbar .hamburger {
   display: none;
   cursor: pointer;
-  z-index: 20; /* Ensure it's on top of the sidebar */
+  z-index: 20;
+  font-size: 30px;
 }
 
-/* Links styling */
+/* Links section */
 .navbar .links {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
+/* Navbar Links */
 .navbar .links ul {
   display: flex;
   align-items: center;
@@ -131,43 +146,45 @@ input::-webkit-outer-spin-button {
   color: #044ff0;
 }
 
-/* Sidebar styling (initially hidden) */
+/* Sidebar (Hidden by default) */
 .navbar .sidebar {
-  display: none;
+  display: flex;
+  
 }
 
 .navbar .sidebar.show {
   display: flex;
-  position: fixed; /* Fixed position for overlay */
-  top: 10px; /* Adjust top spacing here */
+  position: fixed;
+  top: 10px;
   right: 0;
   width: 250px;
   background-color: #333;
-  height: auto; /* Height will be based on content */
-  max-height: 100vh; /* Prevent overflow of sidebar beyond the viewport */
+  height: auto;
+  max-height: 100vh;
   flex-direction: column;
   gap: 20px;
   padding-left: 20px;
   z-index: 10;
   transition: 0.3s;
-  overflow-y: auto; /* Allow scrolling inside the sidebar if content is large */
+  overflow-y: auto;
 }
 
-/* Sidebar links */
+/* Sidebar Links */
 .navbar .sidebar ul {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  width: 34vw;
   padding-left: 0;
 }
 
 .navbar .sidebar ul li {
   list-style-type: none;
-  width: 100%;
+  width: 30vw;
 }
 
 .navbar .sidebar ul li a {
   text-decoration: none;
-  color: white;
+  color: black;
   padding: 10px;
   display: block;
   width: 100%;
@@ -179,76 +196,99 @@ input::-webkit-outer-spin-button {
   background-color: #044ff0;
 }
 
-/* Close button inside the sidebar */
-.navbar .sidebar .close-btn {
-  align-self: flex-end;
-  font-size: 30px;
-  color: white;
-  cursor: pointer;
-  padding-right: 10px;
-  margin-top: 20px;
-}
+/* Media Queries */
 
-/* Prevent body scroll when sidebar is open */
-body.sidebar-open {
-  overflow: hidden;
-}
+/* For small screens (tablet and below) */
+@media (max-width: 1140px) {
+  .navbar .logo {
+    flex: none;
+    width: fit-content;
+  }
 
-/* Media Queries for responsive design */
-
-/* For larger screens (default state) */
-@media (min-width: 1140px) {
-  .navbar .links {
+  .navbar .sidebar.show {
+    display: flex;
+    position: fixed;
+    top: 10px;
+    right: 0;
+    width: 250px;
+    background-color: #333;
+    height: auto;
+    max-height: 100vh;
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 20px;
+    z-index: 10;
+    transition: 0.3s;
+    overflow-y: auto;
+  }
+  
+  /* Sidebar Links */
+  .navbar .sidebar ul {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+  }
+  
+  .navbar .sidebar ul li {
+    list-style-type: none;
+    width: 100%;
+  }
+  
+  .navbar .sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    transition: 0.3s;
+  }
+  /* Show hamburger icon on small screens */
+  .navbar .hamburger {
     display: flex;
   }
 
-  .navbar .hamburger {
+  /* Hide links by default on small screens */
+  .navbar .links {
     display: none;
   }
 
   .navbar .sidebar {
     display: none;
-  }
-}
-
-/* For smaller screens, show hamburger icon and sidebar */
-@media (max-width: 1140px) {
-  .navbar .hamburger {
-    display: flex;
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 20; /* Ensure it's on top of the sidebar */
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 100%;
+    background-color: #333;
+    padding: 20px;
+    flex-direction: column;
   }
 
-  .navbar .links {
-    display: none;
-  }
-
+  /* When sidebar is shown */
   .navbar .sidebar.show {
     display: flex;
+    height: auto;
+    max-height: 100vh;
   }
 
+  /* Adjust styling for mobile links */
   .navbar .sidebar ul li a {
-    font-size: 18px;
+    font-size: 16px;
+    padding: 15px;
+    text-align: left;
   }
 }
 
-/* For very small screens */
+/* For smaller screens (phone size) */
 @media (max-width: 600px) {
-  .navbar .sidebar ul li a {
-    font-size: 16px;
-    padding: 12px;
-  }
-
   .navbar .logo img {
-    width: 90px;
+    width: 75px;
   }
 
   .navbar .hamburger {
-    font-size: 28px;
+    display: flex;
   }
 }
-
 
 .notfound {
   padding: 40px 100px;
@@ -501,7 +541,7 @@ footer div ul a span {
   align-items: center;
   margin: 0 auto;
   gap: 50px;
-  background: #0495f0 ;
+  background: #0496f0a1 ;
 }
 .howItWorks h3 {
   font-size: 1.75rem;
@@ -526,8 +566,8 @@ footer div ul a span {
 .howItWorks .container .card:hover {
   transition: 0.3s;
   transform: translateY(-10px);
-  background: #111;
-  color: #fff;
+  background: #0495f0;
+  color: #fff; 
 }
 .howItWorks .container .card .icon {
   width: fit-content;
@@ -548,14 +588,15 @@ footer div ul a span {
   transition: 0.3s;
 }
 .howItWorks .container .card:hover .icon svg {
-  color: #111;
+  color: rgba(255, 128, 0, 0.649);
 }
 .howItWorks .container .card h4 {
   font-size: 1.3rem;
   font-weight: 500;
 }
 .howItWorks .container .card p {
-  color: gray;
+  color: #000000;
+  font-weight: 400;
 }
 
 @media (max-width: 1720px) {
@@ -568,6 +609,7 @@ footer div ul a span {
     padding: 20px;
   }
 }
+
 
 .authPage {
   display: flex;
@@ -759,9 +801,9 @@ footer div ul a span {
   display: flex;
   position: relative;
   justify-content: center;
-  width: 750px;
+  width: 65vw;
   margin: 0 auto;
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 }
 .jobs .search-tab-wrapper input {
   
@@ -772,23 +814,12 @@ footer div ul a span {
   border: 1px solid gray;
 }
 .jobs .search-tab-wrapper svg {
-  display: none;
+  display: flex;
+  cursor: pointer;
   position: absolute;
-  right: 16px;
-  top: 18px;
+  right: 1rem;
+  top: 0.75rem;
   color: #111;
-}
-.jobs .search-tab-wrapper button {
-  position: absolute;
-  right: 15px;
-  top: 7px;
-  font-size: 16px;
-  background: #0495f0;
-  color: white;
-  font-weight: 500;
-  padding: 5px 10px;
-  border-radius: 7px;
-  border: none;
 }
 .jobs .container {
   width: 75%;
@@ -803,7 +834,7 @@ footer div ul a span {
 .jobs .container .jobs_container .card {
   transition: 0.3s;
   text-decoration: none;
-  background: #f5f5f5;
+  background: linear-gradient(to top, rgba(6, 176, 238, 0.333), #ffffff);
   height: fit-content;
   padding: 20px 40px;
   display: flex;
@@ -811,29 +842,6 @@ footer div ul a span {
   gap: 5px;
   border-radius: 6px;
 }
-/* .jobs .container .jobs_container .card .product-image {
-  background: rgba(133, 133, 124, 0.19);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 280px;
-  position: relative;
-}
-.jobs .container .jobs_container .card .product-image img {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
-.jobs .container .jobs_container .card .product-image a {
-  color: #111;
-  text-decoration: none;
-}
-.jobs .container .jobs_container .card .product-image svg {
-  position: absolute;
-  right: 17px;
-  top: 18px;
-  font-size: 24px;
-} */
 .jobs .container .jobs_container .card .title {
   color: #111;
   font-size: 18px;
@@ -848,9 +856,9 @@ footer div ul a span {
   width: fit-content;
 }
 .jobs .container .jobs_container .card .hiring {
-  color: rgb(0, 145, 255);
+  color: rgb(255, 255, 255);
   font-size: 12px;
-  background: rgba(0, 145, 255, 0.338);
+  background: rgba(0, 51, 255, 0.452);
   padding: 3px 4px;
   border-radius: 5px;
   width: fit-content;
@@ -871,7 +879,7 @@ footer div ul a span {
 
 .jobs .container .jobs_container .card:hover {
   transition: 0.3s;
-  background: rgba(133, 133, 124, 0.19);
+  background: rgba(6, 176, 238, 0.333);
 }
 .jobs .jobs_container .card .btn-wrapper {
   display: flex;
@@ -922,12 +930,6 @@ footer div ul a span {
   }
   .jobs .search-tab-wrapper input {
     padding: 12px 55px 12px 8px;
-  }
-  .jobs .search-tab-wrapper button {
-    display: none;
-  }
-  .jobs .search-tab-wrapper svg {
-    display: block;
   }
 }
 
@@ -1305,42 +1307,7 @@ footer div ul a span {
   }
 }
 
-/* .application_page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 70px 20px;
-  gap: 20px;
-}
-.application_page h1 {
-  font-size: 32px;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 30px;
-}
-.application_page div {
-  min-width: 550px;
-  max-width: 550px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.application_page div input,
-.application_page div textarea {
-  background: #8080805e;
-  border: none;
-  color: #555;
-  padding: 8px 3px;
-}
-.application_page div textarea:focus {
-  outline: none;
-}
-@media (max-width: 620px) {
-  .application_page div {
-    min-width: 100%;
-  }
-} */
+
 
 .application_page {
   display: flex;

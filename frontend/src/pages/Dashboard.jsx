@@ -11,6 +11,8 @@ import MyJobs from "../components/MyJobs";
 import JobPost from "../components/JobPost";
 import Applications from "../components/Applications";
 import MyApplications from "../components/MyApplications";
+import JobStatsChart  from "../components/JobStatsChart";
+import Stats from "../components/Stats";
 
 const Dashboard = () => {
   const [show, setShow] = useState(false);
@@ -59,6 +61,7 @@ const Dashboard = () => {
                 >
                   My Profile
                 </button>
+                
               </li>
               <li>
                 <button
@@ -117,6 +120,20 @@ const Dashboard = () => {
                   </button>
                 </li>
               )}
+              {user && user.role === "Employer" && (
+                <li>
+                  <button
+                    onClick={() => {
+                      setComponentName("Stats");
+                      setShow(!show);
+                    }}
+                  >
+                    Stats
+                  
+                  </button>
+                </li>
+              )}
+              
               {user && user.role === "Job Seeker" && (
                 <li>
                   <button
@@ -165,6 +182,10 @@ const Dashboard = () => {
                 case "Applications":
                   return <Applications />;
                   break;
+                  case "Stats":
+                  return <Stats/>;
+                  break;
+                  
                 case "My Applications":
                   return <MyApplications />;
                   break;

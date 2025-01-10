@@ -12,6 +12,7 @@ const Jobs = () => {
   const [niche, setNiche] = useState("");
   const [selectedNiche, setSelectedNiche] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [showAllNiches, setShowAllNiches] = useState(false); // State for toggling niches display
 
   const { jobs, loading, error } = useSelector((state) => state.jobs);
 
@@ -38,6 +39,7 @@ const Jobs = () => {
     dispatch(fetchJobs(city, niche, searchKeyword));
   };
 
+
   const cities = [
     "All",
     "Karachi",
@@ -62,6 +64,7 @@ const Jobs = () => {
     "Nawabshah",
   ];
   const nichesArray = [
+    "All",
     "Software Development",
     "Web Development",
     "IT and Networking",
@@ -119,6 +122,7 @@ const Jobs = () => {
     "Music and Audio Production",
   ];
   
+  const displayedNiches = showAllNiches ? nichesArray : nichesArray.slice(0, 9); // Show all or top 7 niches
 
   return (
     <>
@@ -132,15 +136,14 @@ const Jobs = () => {
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
-            <button onClick={handleSearch}>Find Job</button>
-            <FaSearch />
+            <FaSearch onClick={handleSearch} />
           </div>
+
           <div className="wrapper">
             <div className="filter-bar">
               <div className="cities">
                 <h2>Filter Job By City</h2>
                 {cities.map((city, index) => (
-                  <>
                   <div key={index}>
                     <input
                       type="radio"
@@ -149,15 +152,14 @@ const Jobs = () => {
                       value={city}
                       checked={selectedCity === city}
                       onChange={() => handleCityChange(city)}
-                      />
+                    />
                     <label htmlFor={city}>{city}</label>
                   </div>
-                      </>
                 ))}
               </div>
               <div className="cities">
                 <h2>Filter Job By Niche</h2>
-                {nichesArray.map((niche, index) => (
+                {displayedNiches.map((niche, index) => (
                   <div key={index}>
                     <input
                       type="radio"
@@ -170,6 +172,14 @@ const Jobs = () => {
                     <label htmlFor={niche}>{niche}</label>
                   </div>
                 ))}
+                {nichesArray.length > 7 && (
+                  <button
+                    className="side-btn"
+                    onClick={() => setShowAllNiches(!showAllNiches)}
+                  >
+                    {showAllNiches ? "Show Less" : "Show All"}
+                  </button>
+                )}
               </div>
             </div>
             <div className="container">
@@ -195,42 +205,43 @@ const Jobs = () => {
                 </select>
               </div>
               <div className="jobs_container">
-                {jobs && jobs.length > 0 ? (jobs.map((element) => {
-                    return (
-                      <div className="card" key={element._id}>
-                        {element.hiringMultipleCandidates === "Yes" ? (
-                          <p className="hiring-multiple">
-                            Hiring Multiple Candidates
-                          </p>
-                        ) : (
-                          <p className="hiring">Hiring</p>
-                        )}
-                        <p className="title">{element.title}</p>
-                        <p className="company">{element.companyName}</p>
-                        <p className="location">{element.location}</p>
-                        <p className="salary">
-                          <span>Salary:</span> Rs. {element.salary}
+                {jobs && jobs.length > 0 ? (
+                  jobs.map((element) => (
+                    <div className="card" key={element._id}>
+                      {element.hiringMultipleCandidates === "Yes" ? (
+                        <p className="hiring-multiple">
+                          Hiring Multiple Candidates
                         </p>
-                        <p className="posted">
-                          <span>Posted On:</span>{" "}
-                          {element.jobPostedOn.substring(0, 10)}
-                        </p>
-                        <div className="btn-wrapper">
-                          <Link
-                            className="btn"
-                            to={`/post/application/${element._id}`}
-                          >
-                            Apply Now
-                          </Link>
-                        </div>
+                      ) : (
+                        <p className="hiring">Hiring</p>
+                      )}
+                      <p className="title">{element.title}</p>
+                      <p className="company">{element.companyName}</p>
+                      <p className="location">{element.location}</p>
+                      <p className="salary">
+                        <span>Salary:</span> Rs. {element.salary}
+                      </p>
+                      <p className="posted">
+                        <span>Posted On:</span>{" "}
+                        {element.jobPostedOn.substring(0, 10)}
+                      </p>
+                      <div className="btn-wrapper">
+                        <Link
+                          className="btn"
+                          to={`/post/application/${element._id}`}
+                        >
+                          Apply Now
+                        </Link>
                       </div>
-                    );
-                  })) : (
-                  /************************************************************/
-                  /* BUG No.2 */
-                  <img src="./notfound.png" alt="job-not-found" style={{width: "100%"}}/>)
-                  /************************************************************/
-                  }
+                    </div>
+                  ))
+                ) : (
+                  <img
+                    src="./notfound.png"
+                    alt="job-not-found"
+                    style={{ width: "100%" }}
+                  />
+                )}
               </div>
             </div>
           </div>

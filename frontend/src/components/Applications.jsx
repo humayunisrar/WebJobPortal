@@ -38,7 +38,7 @@ const Applications = () => {
       {loading ? (
         <Spinner />
       ) : applications && applications.length <= 0 ? (
-        <h1>You have no applications from job seekers.</h1>
+        <h1>You have no Applications.</h1>
       ) : (
         <>
           <div className="account_components">
@@ -63,7 +63,7 @@ const Applications = () => {
                       {element.jobSeekerInfo.phone}
                     </p>
                     <p className="sub-sec">
-                      <span>Applicant's Address: </span>{" "}
+                      <span>Applicant's Location: </span>{" "}
                       {element.jobSeekerInfo.address}
                     </p>
                     <p className="sub-sec">

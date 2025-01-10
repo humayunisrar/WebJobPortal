@@ -124,3 +124,47 @@ export const getASingleJob = catchAsyncErrors(async (req, res, next) => {
     job,
   });
 });
+
+// New function to get job type statistics
+export const getJobStats = catchAsyncErrors(async (req, res, next) => {
+  // Group by jobNiche and count the number of jobs in each niche
+  const jobStats = await Job.aggregate([
+    {
+      $group: {
+        _id: "$jobNiche",   // Grouping by jobNiche
+        count: { $sum: 1 },  // Counting the number of jobs in each niche
+      },
+    },
+    {
+      $project: {
+        niche: "$_id", // Rename _id to niche for clarity
+        count: 1,
+        _id: 0, // Don't return the _id field
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    success: true,
+    data: jobStats,
+  });
+});
+export const getJobLocationsStats = async (req, res, next) => {
+  try {
+    const stats = await Job.aggregate([
+      { $group: { _id: "$location", count: { $sum: 1 } } },
+    ]);
+
+    const formattedStats = stats.map(stat => ({
+      location: stat._id,
+      count: stat.count,
+    }));
+
+    res.status(200).json({
+      success: true,
+      data: formattedStats,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
