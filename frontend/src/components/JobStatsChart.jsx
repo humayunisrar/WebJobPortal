@@ -21,7 +21,8 @@ const JobStatsChart = () => {
     const fetchJobStats = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/v1/job/getstats",
+          "https://jobportalback.onrender.com/api/v1/job/getstats",
+          
           {
             withCredentials: true,
           }
