@@ -2,15 +2,40 @@ import { catchAsyncErrors } from "./catchAsyncErrors.js";
 import ErrorHandler from "./error.js";
 import jwt from "jsonwebtoken";
 import User from "../models/userSchema.js";
+import jwt from 'jsonwebtoken';
+import { User } from "../models/userSchema.js";
+import ErrorHandler from "../middlewares/error.js";
+import { catchAsyncErrors } from "./catchAsyncErrors.js";
 
 export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
+  // Extract token from cookies
   const { token } = req.cookies;
+
+  // If no token is found, return an error
   if (!token) {
-    return next(new ErrorHandler("User is not authenticated", 400));
+    return next(new ErrorHandler("User is not authenticated. Please login.", 401));
   }
-  const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  req.user = await User.findById(decoded.id);
-  next();
+
+  try {
+    // Decode the token to get user information
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    // Find user by decoded token id
+    const user = await User.findById(decoded.id);
+
+    // If user does not exist, return an error
+    if (!user) {
+      return next(new ErrorHandler("User not found.", 404));
+    }
+
+    // Attach the user to the request object for further use
+    req.user = user;
+
+    // Proceed to the next middleware or route handler
+    next();
+  } catch (error) {
+    return next(new ErrorHandler("Invalid or expired token.", 401)); // Invalid token error
+  }
 });
 
 export const isAuthorized = (...roles) => {

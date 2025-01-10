@@ -11,7 +11,6 @@ import MyJobs from "../components/MyJobs";
 import JobPost from "../components/JobPost";
 import Applications from "../components/Applications";
 import MyApplications from "../components/MyApplications";
-import JobStatsChart  from "../components/JobStatsChart";
 import Stats from "../components/Stats";
 
 const Dashboard = () => {
