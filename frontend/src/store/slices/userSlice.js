@@ -128,7 +128,7 @@ export const getUser = () => async (dispatch) => {
   dispatch(userSlice.actions.fetchUserRequest());
   try {
     const response = await axios.get(
-      "https://jobportalback.onrender.com/api/v1/user/getuser",
+      "https://jobportalback.onrender.com/getuser",
       {
         withCredentials: true,
       }
