@@ -2,10 +2,7 @@ import { catchAsyncErrors } from "./catchAsyncErrors.js";
 import ErrorHandler from "./error.js";
 import jwt from "jsonwebtoken";
 import User from "../models/userSchema.js";
-import jwt from 'jsonwebtoken';
-import { User } from "../models/userSchema.js";
-import ErrorHandler from "../middlewares/error.js";
-import { catchAsyncErrors } from "./catchAsyncErrors.js";
+
 
 export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   // Extract token from cookies
@@ -37,7 +34,6 @@ export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Invalid or expired token.", 401)); // Invalid token error
   }
 });
-
 export const isAuthorized = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
