@@ -28,6 +28,7 @@ const Dashboard = () => {
     dispatch(logout());
     toast.success("Logged out successfully.");
   };
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -57,10 +58,10 @@ const Dashboard = () => {
                     setComponentName("My Profile");
                     setShow(!show);
                   }}
+                  className={componentName === "My Profile" ? "active" : ""}
                 >
                   My Profile
                 </button>
-                
               </li>
               <li>
                 <button
@@ -68,6 +69,7 @@ const Dashboard = () => {
                     setComponentName("Update Profile");
                     setShow(!show);
                   }}
+                  className={componentName === "Update Profile" ? "active" : ""}
                 >
                   Update Profile
                 </button>
@@ -78,61 +80,61 @@ const Dashboard = () => {
                     setComponentName("Update Password");
                     setShow(!show);
                   }}
+                  className={componentName === "Update Password" ? "active" : ""}
                 >
                   Update Password
                 </button>
               </li>
 
               {user && user.role === "Employer" && (
-                <li>
-                  <button
-                    onClick={() => {
-                      setComponentName("Job Post");
-                      setShow(!show);
-                    }}
-                  >
-                    Post New Job
-                  </button>
-                </li>
+                <>
+                  <li>
+                    <button
+                      onClick={() => {
+                        setComponentName("Job Post");
+                        setShow(!show);
+                      }}
+                      className={componentName === "Job Post" ? "active" : ""}
+                    >
+                      Post New Job
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => {
+                        setComponentName("My Jobs");
+                        setShow(!show);
+                      }}
+                      className={componentName === "My Jobs" ? "active" : ""}
+                    >
+                      My Jobs
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => {
+                        setComponentName("Applications");
+                        setShow(!show);
+                      }}
+                      className={componentName === "Applications" ? "active" : ""}
+                    >
+                      Applications
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => {
+                        setComponentName("Stats");
+                        setShow(!show);
+                      }}
+                      className={componentName === "Stats" ? "active" : ""}
+                    >
+                      Stats
+                    </button>
+                  </li>
+                </>
               )}
-              {user && user.role === "Employer" && (
-                <li>
-                  <button
-                    onClick={() => {
-                      setComponentName("My Jobs");
-                      setShow(!show);
-                    }}
-                  >
-                    My Jobs
-                  </button>
-                </li>
-              )}
-              {user && user.role === "Employer" && (
-                <li>
-                  <button
-                    onClick={() => {
-                      setComponentName("Applications");
-                      setShow(!show);
-                    }}
-                  >
-                    Applications
-                  </button>
-                </li>
-              )}
-              {user && user.role === "Employer" && (
-                <li>
-                  <button
-                    onClick={() => {
-                      setComponentName("Stats");
-                      setShow(!show);
-                    }}
-                  >
-                    Stats
-                  
-                  </button>
-                </li>
-              )}
-              
+
               {user && user.role === "Job Seeker" && (
                 <li>
                   <button
@@ -140,16 +142,19 @@ const Dashboard = () => {
                       setComponentName("My Applications");
                       setShow(!show);
                     }}
+                    className={componentName === "My Applications" ? "active" : ""}
                   >
                     My Applications
                   </button>
                 </li>
               )}
+
               <li>
                 <button onClick={handleLogout}>Logout</button>
               </li>
             </ul>
           </div>
+
           <div className="banner">
             <div
               className={
@@ -165,33 +170,22 @@ const Dashboard = () => {
               switch (componentName) {
                 case "My Profile":
                   return <MyProfile />;
-                  break;
                 case "Update Profile":
                   return <UpdateProfile />;
-                  break;
                 case "Update Password":
                   return <UpdatePassword />;
-                  break;
                 case "Job Post":
                   return <JobPost />;
-                  break;
                 case "My Jobs":
                   return <MyJobs />;
-                  break;
                 case "Applications":
                   return <Applications />;
-                  break;
-                  case "Stats":
-                  return <Stats/>;
-                  break;
-                  
+                case "Stats":
+                  return <Stats />;
                 case "My Applications":
                   return <MyApplications />;
-                  break;
-
                 default:
-                  <MyProfile />;
-                  break;
+                  return <MyProfile />;
               }
             })()}
           </div>

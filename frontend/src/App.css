@@ -148,17 +148,16 @@ input::-webkit-outer-spin-button {
 
 /* Sidebar (Hidden by default) */
 .navbar .sidebar {
-  display: flex;
-  
+  display: flex; 
 }
 
 .navbar .sidebar.show {
   display: flex;
   position: fixed;
-  top: 10px;
+  
   right: 0;
-  width: 250px;
-  background-color: #333;
+  width: 50vw;
+  background-color: none;
   height: auto;
   max-height: 100vh;
   flex-direction: column;
@@ -182,19 +181,29 @@ input::-webkit-outer-spin-button {
   width: 30vw;
 }
 
+
 .navbar .sidebar ul li a {
-  text-decoration: none;
+  text-decoration: none; 
   color: black;
   padding: 10px;
+  font-weight: 500;
   display: block;
   width: 100%;
   text-align: left;
   transition: 0.3s;
 }
 
+
 .navbar .sidebar ul li a:hover {
-  background-color: #044ff0;
+  color: #044ff0; /* Change text color on hover */
 }
+
+.navbar .sidebar ul li a.active {
+  color: #022c9b; /* Change text color when active */
+ 
+}
+
+
 
 /* Media Queries */
 
@@ -979,13 +988,18 @@ footer div ul a span {
   border: none;
   background: transparent;
 }
+/* Hover effect */
 .account .container .sidebar .sidebar_links button:hover {
   color: #dfdf07;
   transition: 0.3s;
 }
-.account .container .sidebar .sidebar_links .active {
+
+/* Active button styling */
+.account .container .sidebar .sidebar_links button.active {
   color: #dfdf07;
+  font-weight: 500;
 }
+
 .account .container .banner {
   width: 100%;
   max-width: 800px;

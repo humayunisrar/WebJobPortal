@@ -79,9 +79,9 @@ export const getAllJobs = catchAsyncErrors(async (req, res, next) => {
   }
   if (searchKeyword) {
     query.$or = [
-      { title: { $regex: searchKeyword, $options: "i" } },
+      { title: { $regex: searchKeyword, $options: "i" } }, //$regex is used to search for a specific keyword in the database
       { companyName: { $regex: searchKeyword, $options: "i" } },
-      { introduction: { $regex: searchKeyword, $options: "i" } },
+      { introduction: { $regex: searchKeyword, $options: "i" } },  // $options: "i" is used to make the search case-insensitive
     ];
   }
   const jobs = await Job.find(query);
@@ -106,8 +106,8 @@ export const deleteJob = catchAsyncErrors(async (req, res, next) => {
   if (!job) {
     return next(new ErrorHandler("Oops! Job not found.", 404));
   }
-  await job.deleteOne();
-  res.status(200).json({
+  await job.deleteOne(); // deleteOne() is a mongoose method to delete a document 
+  res.status(200).json({ 
     success: true,
     message: "Job deleted.",
   });
@@ -128,15 +128,15 @@ export const getASingleJob = catchAsyncErrors(async (req, res, next) => {
 // New function to get job type statistics
 export const getJobStats = catchAsyncErrors(async (req, res, next) => {
   // Group by jobNiche and count the number of jobs in each niche
-  const jobStats = await Job.aggregate([
+  const jobStats = await Job.aggregate([ // aggregate() is a mongoose method to perform aggregation operations. aggregation operations process data records and return computed results. Aggregation operations group values from multiple documents together, and can perform a variety of operations on the grouped data to return a single result.
     {
-      $group: {
+      $group: { // $group is used to group documents by a specified expression
         _id: "$jobNiche",   // Grouping by jobNiche
         count: { $sum: 1 },  // Counting the number of jobs in each niche
       },
     },
     {
-      $project: {
+      $project: { // $project is used to select fields to return in the query. It is used to rename fields, create new fields, or remove fields from the output.
         niche: "$_id", // Rename _id to niche for clarity
         count: 1,
         _id: 0, // Don't return the _id field
@@ -149,13 +149,13 @@ export const getJobStats = catchAsyncErrors(async (req, res, next) => {
     data: jobStats,
   });
 });
-export const getJobLocationsStats = async (req, res, next) => {
+export const getJobLocationsStats = async (req, res, next) => { 
   try {
     const stats = await Job.aggregate([
       { $group: { _id: "$location", count: { $sum: 1 } } },
     ]);
 
-    const formattedStats = stats.map(stat => ({
+    const formattedStats = stats.map(stat => ({ // Mapping the stats to a more readable format 
       location: stat._id,
       count: stat.count,
     }));

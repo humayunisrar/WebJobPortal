@@ -158,8 +158,8 @@ const JobPost = () => {
         <label>Job Type</label>
         <select value={jobType} onChange={(e) => setJobType(e.target.value)}>
           <option value="">Select Job Type</option>
-          <option value="Full-time">Full-time</option>
-          <option value="Part-time">Part-time</option>
+          <option value="Full Time">Full Time</option>
+          <option value="Part Time">Part Time</option>
           <option value="Contract">Contract</option>
           <option value="Internship">Internship</option>
         </select>

@@ -21,7 +21,7 @@ const JobLocationsBarChart = () => {
     const fetchLocationStats = async () => {
       try {
         const response = await axios.get(
-          "https://jobportalback.onrender.com/api/v1/job/getlocationsstats",
+          "http://localhost:4000/api/v1/job/getlocationsstats",
           { withCredentials: true }
         );
         setLocationData(response.data.data);
