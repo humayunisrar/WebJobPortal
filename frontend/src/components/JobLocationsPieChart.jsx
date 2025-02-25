@@ -82,7 +82,7 @@ const JobLocationsBarChart = () => {
           stepSize: 5, // Y-axis increments of 5
           callback: function (value) {
             if (value === 0) return "0";
-            return `${value+5}`;
+            return `${value}`;
           },
         },
       },
