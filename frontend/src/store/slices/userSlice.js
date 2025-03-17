@@ -123,22 +123,37 @@ export const login = (data) => async (dispatch) => {
     dispatch(userSlice.actions.loginFailed(error.response.data.message));
   }
 };
-
 export const getUser = () => async (dispatch) => {
+  console.log("Fetching user data..."); // Debugging log
   dispatch(userSlice.actions.fetchUserRequest());
+
   try {
+    const token = localStorage.getItem("token"); // Get JWT token from localStorage
+
+    if (!token) {
+      throw new Error("No token found, user might be logged out");
+    }
+
     const response = await axios.get(
       "https://jobportalback.onrender.com/api/v1/user/getuser",
       {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`, // Attach JWT token
+          "Content-Type": "application/json",
+        },
+        withCredentials: true, // Keep this only if using cookies
       }
     );
+
+    console.log("User data received:", response.data);
     dispatch(userSlice.actions.fetchUserSuccess(response.data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.fetchUserFailed(error.response.data.message));
+    console.error("Fetch user failed:", error.response?.data?.message || error.message);
+    dispatch(userSlice.actions.fetchUserFailed(error.response?.data?.message || "Failed to fetch user"));
   }
 };
+
 export const logout = () => async (dispatch) => {
   try {
     const response = await axios.get(
