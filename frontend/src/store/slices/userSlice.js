@@ -1,17 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const initialState = {
+  loading: false,
+  isAuthenticated: false,
+  user: {},
+  token: localStorage.getItem("token") || null, // ✅ Get token from localStorage
+  error: null,
+  message: null,
+};
+
 const userSlice = createSlice({
   name: "user",
-  initialState: {
-    loading: false,
-    isAuthenticated: false,
-    user: {},
-    error: null,
-    message: null,
-  },
+  initialState,
   reducers: {
-    registerRequest(state, action) {
+    registerRequest(state) {
       state.loading = true;
       state.isAuthenticated = false;
       state.user = {};
@@ -22,7 +25,6 @@ const userSlice = createSlice({
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload.user;
-      state.error = null;
       state.message = action.payload.message;
     },
     registerFailed(state, action) {
@@ -30,40 +32,33 @@ const userSlice = createSlice({
       state.isAuthenticated = false;
       state.user = {};
       state.error = action.payload;
-      state.message = null;
     },
-    loginRequest(state, action) {
+    loginRequest(state) {
       state.loading = true;
       state.isAuthenticated = false;
       state.user = {};
       state.error = null;
-      state.message = null;
     },
     loginSuccess(state, action) {
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload.user;
-      state.error = null;
-      state.message = action.payload.message;
+      state.token = action.payload.token; // ✅ Store token in Redux
+      localStorage.setItem("token", action.payload.token); // ✅ Save token in localStorage
     },
     loginFailed(state, action) {
       state.loading = false;
       state.isAuthenticated = false;
       state.user = {};
       state.error = action.payload;
-      state.message = null;
     },
-    fetchUserRequest(state, action) {
+    fetchUserRequest(state) {
       state.loading = true;
-      state.isAuthenticated = false;
-      state.user = {};
-      state.error = null;
     },
     fetchUserSuccess(state, action) {
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
-      state.error = null;
     },
     fetchUserFailed(state, action) {
       state.loading = false;
@@ -71,48 +66,24 @@ const userSlice = createSlice({
       state.user = {};
       state.error = action.payload;
     },
-    logoutSuccess(state, action) {
+    logoutSuccess(state) {
       state.isAuthenticated = false;
       state.user = {};
-      state.error = null;
+      state.token = null; // ✅ Clear token
+      localStorage.removeItem("token"); // ✅ Remove token from localStorage
     },
     logoutFailed(state, action) {
-      state.isAuthenticated = state.isAuthenticated;
-      state.user = state.user;
       state.error = action.payload;
     },
-    clearAllErrors(state, action) {
+    clearAllErrors(state) {
       state.error = null;
-      state.user = state.user;
     },
   },
 });
 
-export const register = (data) => async (dispatch) => {
-  dispatch(userSlice.actions.registerRequest());
-  try {
-    const response = await axios.post(
-      "https://jobportalback.onrender.com/api/v1/user/register",
-      data,
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
-    dispatch(userSlice.actions.registerSuccess(response.data));
-    dispatch(userSlice.actions.clearAllErrors());
-  } catch (error) {
-    dispatch(userSlice.actions.registerFailed(error.response.data.message));
-  }
-};
 export const login = (data) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
-    // Ensure all required fields are present
-    if (!data.email || !data.password || !data.role) {
-      throw new Error("Email, password, and role are required.");
-    }
-
     const response = await axios.post(
       "https://jobportalback.onrender.com/api/v1/user/login",
       data,
@@ -124,15 +95,7 @@ export const login = (data) => async (dispatch) => {
 
     console.log("Login response:", response.data); // Debugging
 
-    const token = response.data.token;
-    if (token) {
-      localStorage.setItem("token", token); // Save token
-      console.log("Token saved:", token); // Debugging
-    } else {
-      console.warn("No token found in response"); // Warn if token is missing
-    }
-
-    dispatch(userSlice.actions.loginSuccess(response.data.user));
+    dispatch(userSlice.actions.loginSuccess(response.data)); // ✅ Dispatch full response data
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
     console.error("Login failed:", error.response?.data?.message || error.message);
@@ -140,12 +103,12 @@ export const login = (data) => async (dispatch) => {
   }
 };
 
-export const getUser = () => async (dispatch) => {
+export const getUser = () => async (dispatch, getState) => {
   console.log("Fetching user data..."); // Debugging log
   dispatch(userSlice.actions.fetchUserRequest());
 
   try {
-    const token = localStorage.getItem("token"); // Get JWT token from localStorage
+    const token = getState().user.token; // ✅ Use token from Redux instead of localStorage
 
     if (!token) {
       throw new Error("No token found, user might be logged out");
@@ -155,10 +118,9 @@ export const getUser = () => async (dispatch) => {
       "https://jobportalback.onrender.com/api/v1/user/getuser",
       {
         headers: {
-          Authorization: `Bearer ${token}`, // Attach JWT token
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // ✅ Attach token
         },
-        withCredentials: true, // Keep this only if using cookies
+        withCredentials: true,
       }
     );
 
@@ -173,16 +135,14 @@ export const getUser = () => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   try {
-    const response = await axios.get(
-      "https://jobportalback.onrender.com/api/v1/user/logout",
-      {
-        withCredentials: true,
-      }
-    );
+    await axios.get("https://jobportalback.onrender.com/api/v1/user/logout", {
+      withCredentials: true,
+    });
+
     dispatch(userSlice.actions.logoutSuccess());
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.logoutFailed(error.response.data.message));
+    dispatch(userSlice.actions.logoutFailed(error.response?.data?.message || "Logout failed"));
   }
 };
 
