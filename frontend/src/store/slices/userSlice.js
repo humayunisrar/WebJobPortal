@@ -1,11 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// ✅ Load initial state from localStorage
+const token = localStorage.getItem("token");
+const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
+
 const initialState = {
   loading: false,
-  isAuthenticated: false,
-  user: null,
-  token: null, // ✅ Let Redux Persist handle this
+  isAuthenticated: !!token,
+  user: user || null,
+  token: token || null,
   error: null,
   message: null,
 };
@@ -25,12 +29,18 @@ const userSlice = createSlice({
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload.user;
+      state.token = action.payload.token;
       state.message = action.payload.message;
+
+      // ✅ Save to localStorage
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
     registerFailed(state, action) {
       state.loading = false;
       state.isAuthenticated = false;
       state.user = null;
+      state.token = null;
       state.error = action.payload;
     },
     loginRequest(state) {
@@ -43,12 +53,17 @@ const userSlice = createSlice({
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload.user;
-      state.token = action.payload.token; // ✅ Save token in Redux state
+      state.token = action.payload.token;
+
+      // ✅ Save to localStorage
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
     loginFailed(state, action) {
       state.loading = false;
       state.isAuthenticated = false;
       state.user = null;
+      state.token = null;
       state.error = action.payload;
     },
     fetchUserRequest(state) {
@@ -68,7 +83,11 @@ const userSlice = createSlice({
     logoutSuccess(state) {
       state.isAuthenticated = false;
       state.user = null;
-      state.token = null; // ✅ Clear token from Redux
+      state.token = null;
+
+      // ✅ Clear localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
     logoutFailed(state, action) {
       state.error = action.payload;
@@ -90,10 +109,11 @@ export const register = (data) => async (dispatch) => {
         headers: { "Content-Type": "multipart/form-data" },
       }
     );
+
     dispatch(userSlice.actions.registerSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.registerFailed(error.response.data.message));
+    dispatch(userSlice.actions.registerFailed(error.response?.data?.message || "Registration failed"));
   }
 };
 
@@ -109,8 +129,8 @@ export const login = (data) => async (dispatch) => {
       }
     );
 
-    console.log("Login response:", response.data); // Debugging
-    dispatch(userSlice.actions.loginSuccess(response.data)); // ✅ Dispatch full response data
+    console.log("Login response:", response.data);
+    dispatch(userSlice.actions.loginSuccess(response.data));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
     console.error("Login failed:", error.response?.data?.message || error.message);
@@ -118,11 +138,11 @@ export const login = (data) => async (dispatch) => {
   }
 };
 
-export const getUser = () => async (dispatch, getState) => {
+export const getUser = () => async (dispatch) => {
   dispatch(userSlice.actions.fetchUserRequest());
 
   try {
-    const token = getState().user.token; // ✅ Get token from Redux state
+    const token = localStorage.getItem("token"); // ✅ Load token from localStorage
 
     if (!token) {
       throw new Error("No token found, user might be logged out");

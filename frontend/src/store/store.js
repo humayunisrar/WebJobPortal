@@ -4,13 +4,13 @@ import userReducer from "./slices/userSlice";
 import applicationReducer from "./slices/applicationSlice";
 import updateProfileReducer from "./slices/updateProfileSlice";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // ✅ Local storage for persistence
+import storage from "redux-persist/lib/storage"; // ✅ Uses local storage
 
-// ✅ Persist the entire 'user' slice
+// ✅ Persist configuration for user slice
 const persistConfig = {
   key: "user",
   storage,
-  whitelist: ["token", "user", "isAuthenticated"], // ✅ Ensure token & user data are stored
+  whitelist: ["user", "token", "isAuthenticated"], // ✅ Persist authentication-related data
 };
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
@@ -24,10 +24,9 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // ✅ Prevent Redux Persist warnings
+      serializableCheck: false, // ✅ Prevents Redux Persist warnings
     }),
 });
 
-export const persistor = persistStore(store); // ✅ Persist store
-
+export const persistor = persistStore(store); // ✅ Creates persisted store
 export default store;
