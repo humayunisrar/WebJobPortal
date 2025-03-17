@@ -105,10 +105,14 @@ export const register = (data) => async (dispatch) => {
     dispatch(userSlice.actions.registerFailed(error.response.data.message));
   }
 };
-
 export const login = (data) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
+    // Ensure all required fields are present
+    if (!data.email || !data.password || !data.role) {
+      throw new Error("Email, password, and role are required.");
+    }
+
     const response = await axios.post(
       "https://jobportalback.onrender.com/api/v1/user/login",
       data,
@@ -117,12 +121,25 @@ export const login = (data) => async (dispatch) => {
         headers: { "Content-Type": "application/json" },
       }
     );
-    dispatch(userSlice.actions.loginSuccess(response.data));
+
+    console.log("Login response:", response.data); // Debugging
+
+    const token = response.data.token;
+    if (token) {
+      localStorage.setItem("token", token); // Save token
+      console.log("Token saved:", token); // Debugging
+    } else {
+      console.warn("No token found in response"); // Warn if token is missing
+    }
+
+    dispatch(userSlice.actions.loginSuccess(response.data.user));
     dispatch(userSlice.actions.clearAllErrors());
   } catch (error) {
-    dispatch(userSlice.actions.loginFailed(error.response.data.message));
+    console.error("Login failed:", error.response?.data?.message || error.message);
+    dispatch(userSlice.actions.loginFailed(error.response?.data?.message || "Login failed"));
   }
 };
+
 export const getUser = () => async (dispatch) => {
   console.log("Fetching user data..."); // Debugging log
   dispatch(userSlice.actions.fetchUserRequest());
