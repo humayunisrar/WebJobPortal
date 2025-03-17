@@ -6,11 +6,11 @@ import updateProfileReducer from "./slices/updateProfileSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // ✅ Local storage for persistence
 
-// ✅ Persist only the 'user' slice to store token & user data
+// ✅ Persist only the 'user' slice (entire state, as whitelist was incorrect)
 const persistConfig = {
   key: "user",
   storage,
-  whitelist: ["token", "isAuthenticated", "user"], // ✅ Persist token & user data
+  whitelist: ["user"], // ✅ Persist entire user state
 };
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
